@@ -68,7 +68,7 @@ Code Structure: The codebase is organized into clear modules (e.g., Python file 
 Contributing Guidelines: Refer to the CONTRIBUTING.md file (if provided) for detailed instructions on how to submit code changes, report issues, or suggest improvements.
 # License
 
-This project is distributed under the MIT License (see LICENSE file for details).
+This project is distributed under the RIO License.
 
 # Examples (Optional)
 
