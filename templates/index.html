@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Window</title>
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('/static/ai_1.png');
+            background-size: cover;
+            font-family: Arial, sans-serif;
+        }
+
+        #chat-container {
+            height: 500px;
+            max-width: 500px;
+            border: 1px solid #ccc;
+            overflow-y: scroll;
+            padding: 10px;
+            background-image: url('/static/chat.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin: 50px auto;
+            border-radius: 10px;
+        }
+
+        .input-wrapper {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #00ffcc;
+            border-radius: 10px;
+            color: #000;
+            font-size: 16px;
+            width: 100%;
+            margin-left: auto;
+            margin-right: 0;
+        }
+
+        #message-input {
+            width: 70%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            background-color: #F4F4F4;
+            color: #000;
+            outline: none;
+            padding-left: 20px;
+            margin-left: auto;
+            margin-right: 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            background-color: #007AFF;
+            color: #FFF;
+            font-size: 16px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body onload="displayInitialMessage()">
+    <div id="chat-container">
+        <!-- Messages will be displayed here -->
+    </div>
+    <div class="input-wrapper">
+        <input type="text" id="message-input" placeholder="Type your message...">
+        <button onclick="sendMessage()">Send</button>
+        <button onclick="startListening()">Start Listening</button>
+    </div>
+
+    <script>
+        function sendMessage() {
+            var message = document.getElementById("message-input").value;
+            displayMessage("You: " + message);
+            document.getElementById("message-input").value = "";
+
+            fetch("/process_message", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ message: message })
+            })
+            .then(response => response.json())
+            .then(data => {
+                var response = data.response;
+                displayMessage("J.A.D.E: " + response);
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function displayMessage(message) {
+            var chatContainer = document.getElementById("chat-container");
+            var messageElement = document.createElement("div");
+            messageElement.textContent = message;
+            messageElement.classList.add("message");
+            chatContainer.appendChild(messageElement);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function startListening() {
+            var recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
+            recognition.lang = 'en-US';
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+
+            recognition.onresult = function(event) {
+                var transcript = event.results[0][0].transcript;
+                document.getElementById("message-input").value = transcript;
+            }
+
+            recognition.onerror = function(event) {
+                console.error('Speech recognition error:', event.error);
+            }
+
+            recognition.start();
+        }
+
+        function displayInitialMessage() {
+            displayMessage("J.A.D.E: Welcome back Boss");
+        }
+    </script>
+</body>
+</html>
