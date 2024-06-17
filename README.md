@@ -70,10 +70,6 @@ Contributing Guidelines: Refer to the CONTRIBUTING.md file (if provided) for det
 
 This project is distributed under the RIO License.
 
-# Examples (Optional)
-
-You can consider including screenshots or usage examples to showcase J.A.D.E.'s capabilities and user interface. This can help users visualize how J.A.D.E. works and encourage them to try it out.
-
 Additional Notes
 
 If your project has dependencies that aren't standard Python libraries, mention them here.
