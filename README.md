@@ -17,8 +17,11 @@ Installation
 # Prerequisites:
 
 Python 3.x (https://www.python.org/downloads/)
+
 Flask framework (https://flask.palletsprojects.com/en/2.3.x/installation/)
+
 Gemini API access (requires a Google Maker Suite account)
+
 # Clone the Repository:
 
 Bash
